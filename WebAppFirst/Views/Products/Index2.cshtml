@@ -1,0 +1,56 @@
+﻿@model IEnumerable<WebAppFirst.Models.Products>
+@{
+    ViewBag.Title = "Index2";
+}
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            $(".showProductId").click(function () {
+                var productId = $(this).data("productid");
+                alert(productId);
+            });
+        });
+        $(function () {
+            $("#poistaTuote").click(function () {
+                var productId = $(this).data("productid");
+                alert(productId);
+            });
+        });
+    </script>
+}
+<div class="container-fluid">
+    <h2>Tuote lista</h2>
+    <h4>Tuotteita @Model.Count() kappaletta </h4>
+    
+    <div class="row">
+        @foreach (WebAppFirst.Models.Products prod in Model)
+        {
+            <div class="col-lg-3">
+                <div class="card mb-3">
+                    <h3 class="card-header">@prod.ProductName</h3>
+                    <div class="card-body">
+                        <h5 class="card-title">@prod.QuantityPerUnit</h5>
+                        <h6 class="card-subtitle text-muted">@prod.UnitsInStock</h6>
+                    </div>
+                    <img style="height: 200px; width: 100%; display: block;"src="@prod.ImageLink"alt="Card image">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">@prod.UnitPrice</li>
+                        <li class="list-group-item">@prod.UnitsOnOrder</li>
+                        <li class="list-group-item">@prod.ReorderLevel</li>
+                    </ul>
+                    <div class="card-body">
+                        <a href="#" class="card-link">Card link</a>
+                        <a href="#" class="card-link">Another link</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script>
+    function naytaValittuTuote(tuoteID) {
+        alert(tuoteID);
+    }
+</script>
+
+
