@@ -10,10 +10,23 @@ namespace WebAppFirst.Controllers
         // GET: Products
         public ActionResult Index()
         {
-            NorthwindOriginalEntities3 db = new NorthwindOriginalEntities3();
-            List<Products> model = db.Products.ToList();
-            db.Dispose();
-            return View(model);
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                if (Session["UserName"] == null)
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                else ViewBag.LoggedStatus = "In";
+                NorthwindOriginalEntities3 db = new NorthwindOriginalEntities3();
+                List<Products> model = db.Products.ToList();
+                db.Dispose();
+                return View(model);
+            }
+
         }
 
         public ActionResult Index2()

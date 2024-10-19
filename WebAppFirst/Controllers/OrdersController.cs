@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using WebAppFirst.Models;
 
@@ -17,8 +13,21 @@ namespace WebAppFirst.Controllers
         // GET: Orders
         public ActionResult Index()
         {
-            var orders = db.Orders.Include(o => o.Customers).Include(o => o.Employees).Include(o => o.Shippers);
-            return View(orders.ToList());
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                if (Session["Username"] == null)
+                {
+                    ViewBag.LoggedStatus = "Out";
+                }
+                else ViewBag.LoggedStatus = "In";
+                var orders = db.Orders.Include(o => o.Customers).Include(o => o.Employees).Include(o => o.Shippers);
+                return View(orders.ToList());
+            }
+
         }
 
         // GET: Orders/Details/5

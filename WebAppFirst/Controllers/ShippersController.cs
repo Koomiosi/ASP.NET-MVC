@@ -12,10 +12,23 @@ namespace WebAppFirst.Controllers
         NorthwindOriginalEntities3 db = new NorthwindOriginalEntities3();
         public ActionResult Index()
         {
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                if (Session["Username"] == null)
+                {
+                    ViewBag.LoggedStatus = "Out";
+                }
+                else ViewBag.LoggedStatus = "In";
+                var shippers = db.Shippers.Include(s => s.Region);
+                return View(shippers.ToList());
+            }
             //List<Shippers> model = db.Shippers.ToList();
             //return View(model);
-            var shippers = db.Shippers.Include(s => s.Region);
-            return View(shippers.ToList());
+
         }
 
         [HttpGet]
