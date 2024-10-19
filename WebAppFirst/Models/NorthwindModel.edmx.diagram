@@ -29,6 +29,7 @@
         <AssociationConnector Association="NorthwindOriginalModel.CustomerCustomerDemo" ManuallyRouted="false" />
         <AssociationConnector Association="NorthwindOriginalModel.EmployeeTerritories" ManuallyRouted="false" />
         <AssociationConnector Association="NorthwindOriginalModel.FK_Shippers_Region" />
+        <EntityTypeShape EntityType="NorthwindOriginalModel.Logins" Width="1.5" PointX="0.75" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
