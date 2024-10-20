@@ -6,93 +6,115 @@ using WebAppFirst.Models;
 
 namespace WebAppFirst.Controllers
 {
-    public class ShippersController : Controller
+
+
+
+
+    namespace WebAppFirst.Controllers
     {
-        // GET: Shippers
-        NorthwindOriginalEntities3 db = new NorthwindOriginalEntities3();
-        public ActionResult Index()
+        public class ShippersController : Controller
         {
-            if (Session["UserName"] == null)
+            // GET: Shippers
+            NorthwindOriginalEntities3 db = new NorthwindOriginalEntities3();
+            public ActionResult Index()
             {
-                return RedirectToAction("Login", "Home");
-            }
-            else
-            {
-                if (Session["Username"] == null)
+                if (Session["UserName"] == null)
                 {
-                    ViewBag.LoggedStatus = "Out";
+                    return RedirectToAction("Login", "Home");
                 }
-                else ViewBag.LoggedStatus = "In";
-                var shippers = db.Shippers.Include(s => s.Region);
-                return View(shippers.ToList());
+                else
+                {
+                    if (Session["Username"] == null)
+                    {
+                        ViewBag.LoggedStatus = "Out";
+                    }
+                    else ViewBag.LoggedStatus = "In";
+                    var shippers = db.Shippers.Include(s => s.Region);
+                    return View(shippers.ToList());
+                }
+                //List<Shippers> model = db.Shippers.ToList();
+                //return View(model);
+
             }
-            //List<Shippers> model = db.Shippers.ToList();
-            //return View(model);
 
-        }
-
-        [HttpGet]
-        public ActionResult Edit(int? id)
-        {
-            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            Shippers shippers = db.Shippers.Find(id);
-            if (shippers == null) return HttpNotFound();
-            ViewBag.RegionID = new SelectList(db.Region, "RegionID", "RegionDescription", shippers.RegionID);
-            return View(shippers);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-
-        public ActionResult Edit([Bind(Include = "ShipperID,CompanyName,Phone,RegionID")] Shippers shipper)
-        {
-            if (ModelState.IsValid)
+            // GET: Shippers/Details/5
+            public ActionResult Details(int? id)
             {
-                db.Entry(shipper).State = EntityState.Modified;
-                db.SaveChanges();
-                ViewBag.RegionID = new SelectList(db.Region, "RegionID", "RegionDescription", shipper.RegionID);
-                return RedirectToAction("Index");
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Shippers shippers = db.Shippers.Find(id);
+                if (shippers == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(shippers);
             }
-            return View(shipper);
-        }
 
-        public ActionResult Create()
-        {
-            ViewBag.RegionID = new SelectList(db.Region, "RegionID", "RegionDescription");
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-
-        public ActionResult Create([Bind(Include = "ShipperID,CompanyName,Phone,RegionID")] Shippers shipper)
-        {
-            if (ModelState.IsValid)
+            [HttpGet]
+            public ActionResult Edit(int? id)
             {
-                db.Shippers.Add(shipper);
-                db.SaveChanges();
+                if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                Shippers shippers = db.Shippers.Find(id);
+                if (shippers == null) return HttpNotFound();
+                ViewBag.RegionID = new SelectList(db.Region, "RegionID", "RegionDescription", shippers.RegionID);
+                return View(shippers);
+            }
+
+            [HttpPost]
+            [ValidateAntiForgeryToken]
+
+            public ActionResult Edit([Bind(Include = "ShipperID,CompanyName,Phone,RegionID")] Shippers shipper)
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Entry(shipper).State = EntityState.Modified;
+                    db.SaveChanges();
+                    ViewBag.RegionID = new SelectList(db.Region, "RegionID", "RegionDescription", shipper.RegionID);
+                    return RedirectToAction("Index");
+                }
+                return View(shipper);
+            }
+
+            public ActionResult Create()
+            {
                 ViewBag.RegionID = new SelectList(db.Region, "RegionID", "RegionDescription");
+                return View();
+            }
+
+            [HttpPost]
+            [ValidateAntiForgeryToken]
+
+            public ActionResult Create([Bind(Include = "ShipperID,CompanyName,Phone,RegionID")] Shippers shipper)
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Shippers.Add(shipper);
+                    db.SaveChanges();
+                    ViewBag.RegionID = new SelectList(db.Region, "RegionID", "RegionDescription");
+                    return RedirectToAction("Index");
+                }
+                return View(shipper);
+            }
+
+            public ActionResult Delete(int? id)
+            {
+                if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                Shippers shippers = db.Shippers.Find(id);
+                if (shippers == null) return HttpNotFound();
+                return View(shippers);
+            }
+
+            [HttpPost, ActionName("Delete")]
+            [ValidateAntiForgeryToken]
+            public ActionResult DeleteConfirmed(int id)
+            {
+                Shippers shippers = db.Shippers.Find(id);
+                db.Shippers.Remove(shippers);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(shipper);
-        }
-
-        public ActionResult Delete(int? id)
-        {
-            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            Shippers shippers = db.Shippers.Find(id);
-            if (shippers == null) return HttpNotFound();
-            return View(shippers);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Shippers shippers = db.Shippers.Find(id);
-            db.Shippers.Remove(shippers);
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
     }
 }
