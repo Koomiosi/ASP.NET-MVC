@@ -15,7 +15,7 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">NorthWind <i class="fa-solid fa-industry"></i></a>
+            <a class="navbar-brand" href="#">NorthWind</a>
             <a class="navbar-brand" href="#">(@ViewBag.LoggedStatus)</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
                     data-bs-target="#navbarColor02" aria-controls="navbarColor02" 
@@ -43,23 +43,21 @@
                         </div>
                     </li>
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
-                           role="button" aria-haspopup="true" aria-expanded="false">Applications</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/Products/Index">Products <i class="fa-solid fa-gift"></i></a>
-                            <a class="dropdown-item" href="/Shippers/Index">Shippers <i class="fa-solid fa-truck-fast"></i></a>
-                            <a class="dropdown-item" href="/Orders/Index">Orders <i class="fa-solid fa-check"></i></a>
-                        </div>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Products/Index">Products <i class="fa-solid fa-gift"></i></a>
                     </li>
+                    <li class="nav-link">
+                        <a class="dropdown-item" href="/Shippers/Index">Shippers <i class="fa-solid fa-truck-fast"></i></a>
+                    </li>
+                    <li class="nav-link">
+                        <a class="dropdown-item" href="/Orders/Index">Orders <i class="fa-solid fa-check"></i></a>
+                    </li>
+
                 </ul>
                 <form class="d-flex">
                     <button class="btn btn-secondary my-2 my-sm-0">@Html.ActionLink("Login", "Login", "Home", new { area = "" }, new { @class = "nav-link" }) </button>
-                    
+                    &nbsp;
                     <button class="btn btn-secondary my-2 my-sm-0">@Html.ActionLink("Logout", "Logout", "Home", new { area = "" }, new { @class = "nav-link" }) </button>
-
-                    <input class="form-control me-sm-2" type="search" placeholder="Search">
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </div>
         </div>

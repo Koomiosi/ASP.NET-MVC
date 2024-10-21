@@ -8,13 +8,28 @@ namespace WebAppFirst.Controllers
 {
     public class ProductsController : Controller
     {
+
+
         private NorthwindOriginalEntities3 db = new NorthwindOriginalEntities3();
 
         // GET: Products
         public ActionResult Index()
         {
-            var products = db.Products.Include(p => p.Categories).Include(p => p.Suppliers);
-            return View(products.ToList());
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                if (Session["Username"] == null)
+                {
+                    ViewBag.LoggedStatus = "Out";
+                }
+                else ViewBag.LoggedStatus = "In";
+                var products = db.Products.Include(p => p.Categories).Include(p => p.Suppliers);
+                return View(products.ToList());
+            }
+
         }
 
         // GET: Products/Details/5

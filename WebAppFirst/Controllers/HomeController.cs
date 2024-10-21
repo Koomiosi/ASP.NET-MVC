@@ -27,24 +27,65 @@ namespace WebAppFirst.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Yhtiön perustietojen kuvailua";
-            ViewBag.Herja = "Ole huolellinen, niin ei tule virhettä ";
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                if (Session["Username"] == null)
+                {
+                    ViewBag.LoggedStatus = "Out";
+                }
+                else ViewBag.LoggedStatus = "In";
+                ViewBag.Message = "Yhtiön perustietojen kuvailua";
+                ViewBag.Herja = "Ole huolellinen, niin ei tule virhettä ";
+                return View();
+            }
 
-            return View();
+
+
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Yhteystietomme.";
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                if (Session["Username"] == null)
+                {
+                    ViewBag.LoggedStatus = "Out";
+                }
+                else ViewBag.LoggedStatus = "In";
+                ViewBag.Message = "Yhteystietomme.";
 
-            return View();
+                return View();
+            }
+
         }
 
         public ActionResult Map()
         {
-            ViewBag.Message = "Saapumisohje";
+            if (Session["UserName"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else
+            {
+                if (Session["Username"] == null)
+                {
+                    ViewBag.LoggedStatus = "Out";
+                }
+                else ViewBag.LoggedStatus = "In";
+                ViewBag.Message = "Saapumisohje";
 
-            return View();
+                return View();
+            }
+
+
         }
 
         public ActionResult Login()
