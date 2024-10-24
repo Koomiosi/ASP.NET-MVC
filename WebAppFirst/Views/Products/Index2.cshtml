@@ -1,0 +1,63 @@
+﻿@model IEnumerable<WebAppFirst.Models.Products>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Tuote lista</h2>
+<h4>Tuotteita @Model.Count() kappaletta </h4>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QuantityPerUnit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitPrice)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Categories.CategoryName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Suppliers.CompanyName)
+        </th>
+        
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuantityPerUnit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Categories.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Suppliers.CompanyName)
+            </td>
+            
+            <td>
+                <a class="btn btn-primary" href="/Products/Details/@item.ProductID"><i class="fa fa-info"></i></a>
+                <a class="btn btn-primary" href="/Products/Edit/@item.ProductID"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-primary" href="/Products/Delete/@item.ProductID"><i class="fa fa-trash-o"></i></a>
+            </td>
+        </tr>
+    }
+
+</table>

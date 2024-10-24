@@ -13,7 +13,7 @@ namespace WebAppFirst.Controllers
         private NorthwindOriginalEntities3 db = new NorthwindOriginalEntities3();
 
         // GET: Products
-        public ActionResult Index()
+        public ActionResult Index(string searchString1)
         {
             if (Session["UserName"] == null)
             {
@@ -26,8 +26,15 @@ namespace WebAppFirst.Controllers
                     ViewBag.LoggedStatus = "Out";
                 }
                 else ViewBag.LoggedStatus = "In";
-                var products = db.Products.Include(p => p.Categories).Include(p => p.Suppliers);
-                return View(products.ToList());
+                var products = from p in db.Products select p;
+                if (!string.IsNullOrEmpty(searchString1))
+                {
+                    products = products.Where(p => p.ProductName.Contains(searchString1));
+                }
+
+                return View(products);
+                //var products = db.Products.Include(p => p.Categories).Include(p => p.Suppliers);
+                //return View(products.ToList());
             }
 
         }

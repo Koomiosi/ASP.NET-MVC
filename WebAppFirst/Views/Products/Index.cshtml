@@ -4,60 +4,56 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Tuote lista</h2>
-<h4>Tuotteita @Model.Count() kappaletta </h4>
+<h2>Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@using (Html.BeginForm("Index", "Products", FormMethod.Get))
+            {
+                <div class="input-group">
+                    <p class="px-1">@Html.Label("Find by name:")</p>
+                    <p class="px-1">@Html.TextBox("SearchString1", ViewBag.currentFilter1 as string, new { @class = "form-control"})</p>
+                    <p class="px-1"><input type="submit" value="Search" class="form-control" /></p>
+                </div>
+            }
+
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.QuantityPerUnit)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UnitPrice)
-        </th>
-
-        <th>
-            @Html.DisplayNameFor(model => model.Categories.CategoryName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Suppliers.CompanyName)
-        </th>
-        
+        @*<th>@Html.DisplayNameFor(model => model.ProductName)</th>*@
+        <th>@Html.ActionLink("Product name", "Index", new { sortOrder = ViewBag.ProductNameSortParm })</th>
+        <th>@Html.DisplayNameFor(model => model.QuantityPerUnit)</th>
+        @*<th>@Html.DisplayNameFor(model => model.UnitPrice)</th>*@
+        <th>@Html.ActionLink("Unit price", "Index", new { sortOrder = ViewBag.UnitPriceSortParm })</th>
+        <th>@Html.DisplayNameFor(model => model.UnitsInStock)</th>
+        <th>@Html.DisplayNameFor(model => model.UnitsOnOrder)</th>
+        <th>@Html.DisplayNameFor(model => model.ReorderLevel)</th>
+        <th>@Html.DisplayNameFor(model => model.Discontinued)</th>
+        <th>@Html.DisplayNameFor(model => model.ImageLink)</th>
+        <th>@Html.DisplayNameFor(model => model.Categories.CategoryName)</th>
+        <th>@Html.DisplayNameFor(model => model.Suppliers.CompanyName)</th>
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.QuantityPerUnit)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UnitPrice)
-            </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.Categories.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Suppliers.CompanyName)
-            </td>
-            
-            <td>
-                <a class="btn btn-primary" href="/Products/Details/@item.ProductID"><i class="fa fa-info"></i></a>
-                <a class="btn btn-primary" href="/Products/Edit/@item.ProductID"><i class="fa fa-edit"></i></a>
-                <a class="btn btn-primary" href="/Products/Delete/@item.ProductID"><i class="fa fa-trash-o"></i></a>
-            </td>
-        </tr>
-    }
+@foreach (var item in Model) {
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
+        <td>@Html.DisplayFor(modelItem => item.QuantityPerUnit)</td>
+        <td>@Html.DisplayFor(modelItem => item.UnitPrice)</td>
+        <td>@Html.DisplayFor(modelItem => item.UnitsInStock)</td>
+        <td>@Html.DisplayFor(modelItem => item.UnitsOnOrder)</td>
+        <td>@Html.DisplayFor(modelItem => item.ReorderLevel)</td>
+        <td>@Html.DisplayFor(modelItem => item.Discontinued)</td>
+        <td>@Html.DisplayFor(modelItem => item.ImageLink)</td>
+        <td>@Html.DisplayFor(modelItem => item.Categories.CategoryName)</td>
+        <td>@Html.DisplayFor(modelItem => item.Suppliers.CompanyName)</td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ProductID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ProductID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ProductID })
+        </td>
+    </tr>
+}
 
 </table>
