@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using PagedList;
+using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -13,8 +15,12 @@ namespace WebAppFirst.Controllers
         private NorthwindOriginalEntities3 db = new NorthwindOriginalEntities3();
 
         // GET: Products
-        public ActionResult Index(string searchString1)
+        public ActionResult Index(string searchString1, string sortOrder, string currentFilter1, int? page, int? pagesize)
         {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.ProductNameSortParm = String.IsNullOrEmpty(sortOrder) ? "productname_desc" : "";
+            ViewBag.UnitPriceSortParm = sortOrder == "UnitPrice" ? "UnitPrice_desc" : "UnitPrice";
+
             if (Session["UserName"] == null)
             {
                 return RedirectToAction("Login", "Home");
@@ -26,13 +32,31 @@ namespace WebAppFirst.Controllers
                     ViewBag.LoggedStatus = "Out";
                 }
                 else ViewBag.LoggedStatus = "In";
-                var products = from p in db.Products select p;
+                //var products = from p in db.Products select p;
+                var products = db.Products.Include(p => p.Categories).Include(p => p.Suppliers);
                 if (!string.IsNullOrEmpty(searchString1))
                 {
                     products = products.Where(p => p.ProductName.Contains(searchString1));
                 }
 
-                return View(products);
+                switch (sortOrder)
+                {
+                    case "productname_desc":
+                        products = products.OrderByDescending(p => p.ProductName);
+                        break;
+                    case "UnitPrice":
+                        products = products.OrderBy(p => p.UnitPrice);
+                        break;
+                    case "UnitPrice_desc":
+                        products = products.OrderByDescending(p => p.UnitPrice);
+                        break;
+                    default:
+                        products = products.OrderBy(p => p.ProductName);
+                        break;
+                }
+                int pageSize = (pagesize ?? 10);
+                int pageNumber = (page ?? 1);
+                return View(products.ToPagedList(pageNumber, pageSize));
                 //var products = db.Products.Include(p => p.Categories).Include(p => p.Suppliers);
                 //return View(products.ToList());
             }

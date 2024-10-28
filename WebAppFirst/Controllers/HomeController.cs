@@ -8,19 +8,19 @@ namespace WebAppFirst.Controllers
     {
         public ActionResult Index()
         {
-            if (Session["UserName"] == null)
+            //if (Session["UserName"] == null)
+            //{
+            //    return RedirectToAction("Login", "Home");
+            //}
+            //else
+            //{
+            if (Session["Username"] == null)
             {
-                return RedirectToAction("Login", "Home");
+                ViewBag.LoggedStatus = "Out";
             }
-            else
-            {
-                if (Session["Username"] == null)
-                {
-                    ViewBag.LoggedStatus = "Out";
-                }
-                else ViewBag.LoggedStatus = "In";
-                return View();
-            }
+            else ViewBag.LoggedStatus = "In";
+            return View();
+            //}
 
         }
 
@@ -108,6 +108,7 @@ namespace WebAppFirst.Controllers
             {
                 ViewBag.LoginMessage = "Successfull login";
                 ViewBag.LoggedStatus = "In";
+                ViewBag.LoginError = 0;
                 Session["UserName"] = LoggedUser.UserName;
                 return RedirectToAction("Index", "Home"); //Tässä määritellään mihin onnistunut kirjautuminen johtaa --> Home/Index
             }
@@ -115,8 +116,9 @@ namespace WebAppFirst.Controllers
             {
                 ViewBag.LoginMessage = "Login unsuccessfull";
                 ViewBag.LoggedStatus = "Out";
+                ViewBag.LoginError = 1;
                 LoginModel.LoginErrorMessage = "Tuntematon käyttäjätunnus tai salasana.";
-                return View("Login", LoginModel);
+                return View("Index", LoginModel);
             }
         }
         public ActionResult LogOut()
