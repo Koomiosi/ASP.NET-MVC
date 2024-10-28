@@ -16,9 +16,9 @@
     <section class="row" aria-labelledby="aspnetTitle">
         <h1 id="title">Northwind demo app</h1>
         <p class="lead">Tämä on Northwind-sovelluksen working demo</p>
-        
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#LoginRuutu">Avaa Modal-ikkuna</button>
-        
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#LoginRuutu">Kirjaudu</button>
+
+
         <div class="modal" id="LoginRuutu">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -26,7 +26,7 @@
                         <h1>Kirjautuminen Northwind-järjestelmään</h1>
                     </div>
                     <div class="modal-body">
-                        @using (Html.BeginForm("Authorize", "Home", FormMethod.Post, new { id = "loginForm"}))
+                        @using (Html.BeginForm("Authorize", "Home", FormMethod.Post, new { id = "loginForm" }))
                         {
                             @Html.AntiForgeryToken()
 
@@ -67,11 +67,12 @@
                             @*<button type="button" class="btn btn-danger" data-db-dismiss="modal">Peruuta</button>*@
                             <a href="@Url.Action("Index", "Home")" class="btn btn-primary"><i class="fas fa-times"></i></a>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
         </div>
+
         <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
         @for (int i = 0; i < 10; i++)
         {

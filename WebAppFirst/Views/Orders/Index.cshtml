@@ -3,45 +3,121 @@
 @{
     ViewBag.Title = "Index";
 }
-
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            $(".showOrderClass").click(function () {
+                let orderId = $(this).data("orderid");
+                //alert("Klikkasit tilausnumeroa: " + orderId);
+                //document.getElementById("OrderID").value = orderId;
+                //PartialView:
+                var url = "/Orders/_TilausRivit/?OrderID=" + orderId;
+                $("#orderDetails_" + orderId).append(" <b>Loading order " + orderId + " rows...</b>");
+                var $detailDiv = $("#orderDetails_" + orderId);
+                //console.log(url);
+                //console.log($detailDiv);
+                $.get(url, function (data) {
+                    $detailDiv.replaceWith(data);
+                });
+            });
+        });
+    </script>
+}
 <h2>Orders</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CustomerID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderDate)
-        </th>
-        
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CustomerID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderDate)
-        </td>
-        
-        <td>
-            <a class="btn btn-primary" href="/Orders/Details/@item.OrderID"><i class="fa fa-info"></i></a>
-            <a class="btn btn-primary" href="/Orders/Edit/@item.OrderID"><i class="fa fa-edit"></i></a>
-            <a class="btn btn-primary" href="/Orders/Delete/@item.OrderID"><i class="fa fa-trash-o"></i></a>
-        </td>
-    </tr>
-}
+<div id="accordion">
+    @foreach (var item in Model)
+    {
+        <div class="card">
+            <div class="card-header">
+                <!--BS5-->
+                <!--showOrderClass: Jquery klikkaukset-->
+                <!--data-orderid: jQuery saa tiedon minkä tilauksen rivit pitää hakea-->
+                <!--item.OrderID: Jokaisesta tilausrivistä luodaan yksilöllinen collapse-id html-dokumentin DOM-rakenteeseen käyttämälä tilausnumeroa id:n osana-->
 
-</table>
+                <a class="card-link showOrderClass" data-orderid="@item.OrderID" data-bs-toggle="collapse" href="#collapse_@item.OrderID">
+                    <form>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">@item.OrderID</span>
+                            </div>
+                            @*<label class="px-2" for="usr">@Html.DisplayNameFor(model => model.Customers.CompanyName):</label>*@
+                            <input type="text" class="form-control px-2" value="@item.Customers.CompanyName" disabled>
+                            <input type="text" class="form-control px-2" value="@item.ShipName" disabled>
+                            <input type="text" class="form-control px-2" value="@item.ShipAddress" disabled>
+                            <input type="text" class="form-control px-2" value="@item.ShipCity" disabled>
+                            <input type="text" class="form-control px-2" value="@item.ShipCountry" disabled>
+                            <input type="text" class="form-control px-2" value="@item.ShipRegion" disabled>
+                            <input type="text" class="form-control px-2" value="@item.Shippers.CompanyName" disabled><div></div>
+                        </div>
+                    </form>
+                </a>
+            </div>
+            <!--BS5-->
+            <div id="collapse_@item.OrderID" class="collapse" data-bs-parent="#accordion" aria-labelledby="heading_@item.OrderID">
+                <div class="px-2" style="text-align:right; padding-top:5px">
+                    <a class="card-link getOrderId" data-orderid="@item.OrderID" title="Edit Order"><i class="bi bi-pen"></i></a>
+                    <a class="card-link delOrderId" data-orderid3="@item.OrderID" title="Delete Order"><i class="bi bi-trash3"></i></a>
+                </div>
+                <div class="card-body">
+                    <!--jQuery renderöi tilauksen rivitiedot-->
+                    <div id="orderDetails_@item.OrderID"></div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderDate)
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDate)
+                </td>
+
+                <td>
+                    <a class="btn btn-primary" href="/Orders/Details/@item.OrderID"><i class="fa fa-info"></i></a>
+                    <a class="btn btn-primary" href="/Orders/Edit/@item.OrderID"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-primary" href="/Orders/Delete/@item.OrderID"><i class="fa fa-trash-o"></i></a>
+                </td>
+            </tr>
+        }
+
+    </table>*@
