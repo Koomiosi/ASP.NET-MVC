@@ -2,33 +2,237 @@
 @{
     ViewBag.Title = "Home Page";
 }
+<script ssrc="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.1/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
 @section scripts {
     <script type="text/javascript">
-        $(window).on('load', function () {
-            if (@ViewBag.LoginError == 1) {
-                $('#LoginRuutu').modal('show');
+
+        var labelTexts = [@Html.Raw(ViewBag.categoryName)];
+        console.log(labelTexts);
+        var dataValues = [@ViewBag.categorySales];
+        console.log(dataValues);
+
+        var ctx = document.getElementById('barcanvas').getContext('2d');
+        var barcanvas = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labelTexts,
+                datasets: [{
+                    //axis: 'y',
+                    label: 'Sales in money per category at 1997',
+                    data: dataValues,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                //indexAxis: 'y',
+                scales: {
+
+                    //x: {
+                    //    stacked: true
+                    //},
+                    //y: {
+                    //    stacked: true
+                    //},
+
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
             }
         });
+
+        var labelTexts = [@Html.Raw(ViewBag.categoryName)];
+        console.log(labelTexts);
+        var dataValues = [@ViewBag.categorySales];
+        console.log(dataValues);
+
+        var ctx2 = document.getElementById('barcanvas2').getContext('2d');
+        var barcanvas2 = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: labelTexts,
+                datasets: [{
+                    //axis: 'y',
+                    label: 'Sales in money per category at 1997',
+                    data: dataValues,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                //indexAxis: 'y',
+                scales: {
+
+                    //x: {
+                    //    stacked: true
+                    //},
+                    //y: {
+                    //    stacked: true
+                    //},
+
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
     </script>
+
 }
-<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">Northwind  app</h1>
-        <p class="lead">Tämä on Northwind-sovelluksen working demo</p>
+
+<br />
+<br />
+
+<div class="container-fluid">
+    <div class="row" padding="10%">
+        <h2>CategorySales in 1997</h2>
+        <br /><br />
+        <div class="col-sm-6">
+            <canvas id="barcanvas"></canvas>
+        </div>
+
+        <h2>CategorySales in 1997</h2>
+        <br /><br />
+        <div class="col-sm-6">
+            <canvas id="barcanvas2" width="400" height="400"></canvas>
+        </div>
+
+    </div>
+    <div style="text-align: center">
+        Tiedot on haettu Northwind tietokannasta!
+    </div>
+</div>
 
 
-        
-
-        @*<p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-        @for (int i = 0; i < 10; i++)
+Controller:
+public ActionResult CategorySales()
         {
-            <p>@i</p>
-        }*@
+            string categoryNameList;
+            string categorySalesList;
 
-        @*<p>Nyt on @DateTime.Now.ToString(new CultureInfo("en-US")) </p>*@
-    </section>
-</main>
+            List<CategorySalesClass>
+    CategorySalesList = new List<CategorySalesClass>
+        ();
 
-@{ 
-    Html.RenderPartial("_LoginModal");
-}
+        var categorySalesData = from cs in db.Category_Sales_for_1997
+        select cs;
+
+        foreach (Category_Sales_for_1997 salesfor1997 in categorySalesData)
+        {
+        CategorySalesClass OneSalesRow = new CategorySalesClass();
+        OneSalesRow.CategoryName = salesfor1997.CategoryName;
+        OneSalesRow.CategorySales = (int?)salesfor1997.CategorySales;
+        //OneSalesRow.CategorySales = 11;
+        CategorySalesList.Add(OneSalesRow);
+        }
+
+        categoryNameList = "'" + string.Join("','", CategorySalesList.Select(n => n.CategoryName).ToList()) + "'";
+        categorySalesList = string.Join(",", CategorySalesList.Select(n => n.CategorySales.ToString()).ToList());
+
+        ViewBag.categoryName = categoryNameList;
+        ViewBag.categorySales = categorySalesList;
+
+        return View();
+        }
+
+
+
+        @*@section scripts {
+                <script type="text/javascript">
+                    $(window).on('load', function () {
+                        if (@ViewBag.LoginError == 1) {
+                            $('#LoginRuutu').modal('show');
+                        }
+                    });
+                    const ctx = document.getElementById('myChart');
+
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                            datasets: [{
+                                label: '# of Votes',
+                                data: [12, 19, 3, 5, 2, 3],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+
+                </script>
+            }
+            <div class="jumbotron">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <canvas id="myChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <main>
+                <section class="row" aria-labelledby="aspnetTitle">
+                    <h1 id="title">Northwind  app</h1>
+                    <p class="lead">Tämä on Northwind-sovelluksen working demo</p>
+
+
+
+
+                    <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
+                    @for (int i = 0; i < 10; i++)
+                    {
+                        <p>@i</p>
+                    }
+
+                    <p>Nyt on @DateTime.Now.ToString(new CultureInfo("en-US")) </p>
+                </section>
+            </main>*@
+
+        @{
+            Html.RenderPartial("_LoginModal");
+        }

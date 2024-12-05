@@ -9,7 +9,7 @@ namespace WebAppFirst.Controllers
 {
     public class OrdersController : Controller
     {
-        private NorthwindOriginalEntities3 db = new NorthwindOriginalEntities3();
+        private NorthwindOriginalEntities4 db = new NorthwindOriginalEntities4();
 
         // GET: Orders
         public ActionResult Index()

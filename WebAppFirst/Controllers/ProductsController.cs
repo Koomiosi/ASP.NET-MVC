@@ -12,7 +12,7 @@ namespace WebAppFirst.Controllers
     {
 
 
-        private NorthwindOriginalEntities3 db = new NorthwindOriginalEntities3();
+        private NorthwindOriginalEntities4 db = new NorthwindOriginalEntities4();
 
         // GET: Products
         public ActionResult Index(string searchString1, string sortOrder, string currentFilter1, int? page, int? pagesize)

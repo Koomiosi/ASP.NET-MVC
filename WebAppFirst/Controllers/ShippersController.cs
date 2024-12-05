@@ -15,7 +15,7 @@ namespace WebAppFirst.Controllers
         public class ShippersController : Controller
         {
             // GET: Shippers
-            NorthwindOriginalEntities3 db = new NorthwindOriginalEntities3();
+            NorthwindOriginalEntities4 db = new NorthwindOriginalEntities4();
             public ActionResult Index()
             {
                 if (Session["UserName"] == null)
