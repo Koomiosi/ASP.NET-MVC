@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using WebAppFirst.Models;
+using WebAppFirst.ViewModels;
 
 namespace WebAppFirst.Controllers
 {
@@ -144,6 +145,49 @@ namespace WebAppFirst.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult Tilausotsikot()
+        {
+            var orders = db.Orders.Include(o => o.Customers).Include(o => o.Employees).Include(o => o.Shippers);
+            return View(orders.ToList());
+        }
+        public ActionResult _TilausRivit(int? orderid)
+        {
+            if ((orderid == null) || (orderid == 0))
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                var orderRowsList = from od in db.Order_Details
+                                    join p in db.Products on od.ProductID equals p.ProductID
+                                    join c in db.Categories on p.CategoryID equals c.CategoryID
+                                    where od.OrderID == orderid
+                                    //orderby-lause
+                                    select new OrderRow
+                                    {
+                                        OrderID = od.OrderID,
+                                        ProductID = p.ProductID,
+                                        UnitPrice = (float)p.UnitPrice,
+                                        Quantity = (int)od.Quantity,
+                                        Discount = (float)od.Discount,
+                                        ProductName = p.ProductName,
+                                        SupplierID = (int)p.SupplierID,
+                                        CategoryID = (int)c.CategoryID,
+                                        QuantityPerUnit = p.QuantityPerUnit,
+                                        UnitsInStock = (int)p.UnitsInStock,
+                                        UnitsOnOrder = (int)p.UnitsOnOrder,
+                                        ReorderLevel = (int)p.ReorderLevel,
+                                        Discontinued = p.Discontinued,
+                                        CategoryName = c.CategoryName,
+                                        Description = c.Description,
+                                        ImageLink = p.ImageLink
+                                        //Picture = (Image)c.Picture
+                                    };
+                return PartialView(orderRowsList);
+            }
+
         }
     }
 }

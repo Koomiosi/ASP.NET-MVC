@@ -1,0 +1,181 @@
+﻿@model IEnumerable<WebAppFirst.Models.Orders>
+
+@{
+    ViewBag.Title = "Tilausotsikot";
+}
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            $(".showOrderClass").click(function () {
+                let orderId = $(this).data("orderid");
+                //alert("Klikkasit tilausnumeroa: " + orderId);
+                ////document.getElementById("OrderID").value = orderId;
+                ////PartialView:
+                var url = "/Orders/_TilausRivit/?OrderID=" + orderId;
+                $("#orderDetails_" + orderId).append(" <b>Loading order " + orderId + " rows...</b>");
+                var $detailDiv = $("#orderDetails_" + orderId);
+                ////console.log(url);
+                ////console.log($detailDiv);
+                $.get(url, function (data) {
+                    $detailDiv.replaceWith(data);
+                });
+            });
+        });
+    </script>
+}
+
+<h2>Tilausotsikot</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="container-fluid">
+    <div class="card-header">
+        <a class="card-link text-decoration-none">
+            <form>
+                <div class="input-group">
+                    <div class="input-group-text bg-secondary text-dark font-weight-bold">
+                        <span class="input-group-text text-bg-secondary font-weight-bold">Order</span>
+                    </div>
+                    <!--disabled-ominaisuus varmistamaa, että tiettyjä toimintoja tai tietoja ei voi muuttaa vahingossa.-->
+                    <input type="text" class="form-control text-bg-secondary font-weight-bold px-2" value="Customer" disabled>
+                    <input type="text" class="form-control text-bg-secondary font-weight-bold px-2" value="ShipName" disabled>
+                    <input type="text" class="form-control text-bg-secondary font-weight-bold px-2" value="ShipAddress" disabled>
+                    <input type="text" class="form-control text-bg-secondary font-weight-bold px-2" value="ShipCity" disabled>
+                    <input type="text" class="form-control text-bg-secondary font-weight-bold px-2" value="ShipCountry" disabled>
+                    <input type="text" class="form-control text-bg-secondary font-weight-bold px-2" value="ShipRegion" disabled>
+                    <input type="text" class="form-control text-bg-secondary font-weight-bold px-2" value="Shipper" disabled>
+                </div>
+            </form>
+        </a>
+    </div>
+    <div id="accordion">
+        @foreach (var item in Model)
+        {
+            <div class="card">
+                <div class="card-header">
+                    <a class="card-link showOrderClass" data-orderid="@item.OrderID" data-bs-toggle="collapse" href="#collapse_@item.OrderID">
+                        <form>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">@item.OrderID</span>
+                                </div>
+                                <input type="text" class="form-control px-2" value="@item.Customers.CompanyName" disabled>
+                                <input type="text" class="form-control px-2" value="@item.ShipName" disabled>
+                                <input type="text" class="form-control px-2" value="@item.ShipAddress" disabled>
+                                <input type="text" class="form-control px-2" value="@item.ShipCity" disabled>
+                                <input type="text" class="form-control px-2" value="@item.ShipCountry" disabled>
+                                <input type="text" class="form-control px-2" value="@item.ShipRegion" disabled>
+                                <input type="text" class="form-control px-2" value="@item.Shippers.CompanyName" disabled><div></div>
+                            </div>
+                        </form>
+                    </a>
+                </div>
+                <div id="collapse_@item.OrderID" class="collapse" data-bs-parent="#accordion">
+                    <div class="card-body">
+                        <div id="orderDetails_@item.OrderID"></div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@*<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RequiredDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShippedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Freight)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipCity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipRegion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipPostalCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipCountry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Customers.CompanyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Employees.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Shippers.CompanyName)
+        </th>
+        <th></th>
+    </tr>
+</table>*@
+
+    @*<tr class="showOrderClass" data-orderid="@item.OrderID">
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequiredDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShippedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Freight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShipName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShipAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShipCity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShipRegion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShipPostalCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShipCountry)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customers.CompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employees.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Shippers.CompanyName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.OrderID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.OrderID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.OrderID })
+            </td>
+        </tr>*@
