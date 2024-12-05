@@ -303,6 +303,7 @@
     <Content Include="Views\Products\Index2.cshtml" />
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Shared\_LoggedIn.cshtml" />
+    <Content Include="Views\Shared\_LoginModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -17,7 +17,6 @@
                     </a>
                 </li>
                 <li class="nav-link">
-                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#LoginRuutu">Kirjaudu</a>
                 </li>
 
                 <li class="nav-item dropdown">
@@ -44,7 +43,9 @@
 
             </ul>
             <form class="d-flex">
-                <button class="btn btn-secondary my-2 my-sm-0">@Html.ActionLink("Login", "Login", "Home", new { area = "" }, new { @class = "nav-link" }) </button>
+                <a class="btn btn-secondary my-2 my-sm-0" data-bs-toggle="modal" data-bs-target="#LoginRuutu">Kirjaudu</a>
+
+                @*<button class="btn btn-secondary my-2 my-sm-0">@Html.ActionLink("Login", "Login", "Home", new { area = "" }, new { @class = "nav-link" }) </button>*@
                 &nbsp;
                 <button class="btn btn-secondary my-2 my-sm-0">@Html.ActionLink("Logout", "Logout", "Home", new { area = "" }, new { @class = "nav-link" }) </button>
             </form>
