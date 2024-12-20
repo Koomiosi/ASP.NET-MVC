@@ -246,6 +246,7 @@
       <DependentUpon>Northwind.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CategorySalesClass.cs" />
     <Compile Include="ViewModels\OrderRow.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -367,10 +368,10 @@
     <Content Include="Views\Shared\_LoginModal.cshtml" />
     <Content Include="Views\Orders\Tilausotsikot.cshtml" />
     <Content Include="Views\Orders\_TilausRivit.cshtml" />
+    <Content Include="Views\Statistics\CategorySales.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Statistics\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
