@@ -5,3 +5,74 @@
 
 <h2>CategorySales</h2>
 
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <canvas id="barcanvas"></canvas>
+        </div>
+    </div>
+    <div style="text-align: center">
+        Tiedot on haettu paikallisesta tietokannasta!
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript">
+
+        var labelTexts = [@Html.Raw(ViewBag.categoryName)];
+        console.log(labelTexts);
+        var dataValues = [@ViewBag.categorySales];
+        console.log(dataValues);
+
+        var ctx = document.getElementById('barcanvas').getContext('2d');
+        var barcanvas = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labelTexts,
+                datasets: [{
+                    //axis: 'y',
+                    label: 'Sales in money per category at 1997',
+                    data: dataValues,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                //indexAxis: 'y',
+                scales: {
+
+                    //x: {
+                    //    stacked: true
+                    //},
+                    //y: {
+                    //    stacked: true
+                    //},
+
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        
+
+    </script>
+
+}
