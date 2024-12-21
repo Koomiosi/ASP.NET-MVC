@@ -317,6 +317,7 @@
     <Content Include="Models\Northwind.edmx.diagram">
       <DependentUpon>Northwind.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\WebAppFirst20241220211407 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\chart.js" />
     <Content Include="Scripts\chart.min.js" />

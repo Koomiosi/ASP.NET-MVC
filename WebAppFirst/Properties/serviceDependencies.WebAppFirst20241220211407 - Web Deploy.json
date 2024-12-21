@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "ignored": "true",
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:DefaultConection"
+    },
+    "mssql2": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/WebAppFirst20241220211407/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsDefault_5B1D70825F",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/srvnorthwinddb/databases/northwind",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:Default"
+    }
+  }
+}
